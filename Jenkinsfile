@@ -16,17 +16,18 @@ pipeline {
                     ls -ltr
                     mvn clean package
                     echo "now java 8 is shown"
-                   """
+                """
             }
         }
         stage("Deployment") {
             steps {
                 sshagent(credentials: ['sshid']) {
-                    // Use the exact path to the .war file
+                    // Securely copy the .war file to the remote server
                     sh '''
                         scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
-                        
-                        // Run the remote commands to move the .war file
+                    '''
+                    // Run the remote commands to move the .war file
+                    sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209 'sudo mv /tmp/gameoflife.war /opt/tomcat/webapps/'
                     '''
                 }

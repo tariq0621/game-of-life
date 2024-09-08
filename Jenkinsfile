@@ -2,36 +2,38 @@ pipeline {
     agent any
     stages {
         stage("Git Checkout") {
-          steps{
-            git credentialsId: 'githubtoken', url: 'https://github.com/tariq0621/game-of-life.git'
-          }
-          }
-          stage('build stage') {
+            steps {
+                git credentialsId: 'githubtoken', url: 'https://github.com/tariq0621/game-of-life.git'
+            }
+        }
+        stage('Build Stage') {
             environment { 
                 JAVA_HOME = "/usr/lib/jvm/java-8-openjdk-amd64"
-                PATH = "$JAVA_HOME/bin:/usr/share/maven/bin:$PATH"
+                PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${env.PATH}"
             }
             steps {
                 sh """
                     ls -ltr
                     mvn -v
                     echo "now java 8 is shown"
-                    mvn -v
+                    mvn clean package
                    """
-             }
-             } 
-             stage('deploy stage') {
-            
+            }
+        }
+        stage('Deploy Stage') {
             steps {
                 sshagent(credentials: ['sshid']) {
-                sh 'scp -o StrictHostKeyChecking=no **/target/gameoflife.war ubuntu@172.31.37.68:/tmp'
-                sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.37.68
-                    mv /tmp/gameoflife.war /opt/tomcat/webapps
-                   
+                    // Exact path to the WAR file is needed, no wildcards
+                    sh 'scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.37.68:/tmp'
+                    
+                    // SSH and execute 'mv' command on the remote server
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.37.68 '
+                        sudo mv /tmp/gameoflife.war /opt/tomcat/webapps/
+                        '
                     '''
-             }
                 }
-             } 
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh """
                     ls -ltr
-                    mvn -v
+                    mvn clean package
                     echo "now java 8 is shown"
                    """
             }

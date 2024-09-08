@@ -13,14 +13,14 @@ pipeline{
                PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${env.PATH}"
                }
         steps{
-               sh "mvn clean package"
+              sh "mvn -v"
             }   
         }
         stage("deploy environment") {
             steps {
                  sshagent(['sshid']) {
                  sh '''
-                    scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp'
+                    scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209
                     mv /tmp/gameoflife.war /opt/tomcat/webapps
 

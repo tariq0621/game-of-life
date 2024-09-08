@@ -23,12 +23,15 @@ pipeline {
              stage('deploy stage') {
             
             steps {
+                sshagent(credentials: ['sshid']) {
                 sh 'scp -o StrictHostKeyChecking=no **/target/gameoflife.war ubuntu@172.31.37.68:/tmp'
                 sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.37.68 
+                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.37.68
+                    sudo mv /tmp/gameoflife.war /opt/tomcat/webapps
                    
                     '''
              }
+                }
              } 
     }
 }

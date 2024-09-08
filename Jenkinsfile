@@ -19,20 +19,5 @@ pipeline {
                    """
             }
         }
-        stage('Deploy Stage') {
-            steps {
-                sshagent(credentials: ['sshid']) {
-                    // Exact path to the WAR file is needed, no wildcards
-                    sh 'scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp'
-                    
-                    // SSH and execute 'mv' command on the remote server
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209 '
-                        sudo mv /tmp/gameoflife.war /opt/tomcat/webapps/
-                        '
-                    '''
-                }
-            }
-        }
     }
 }

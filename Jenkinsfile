@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git credentialsId: 'githubtoken', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
+                git credentialsId: 'github', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
             }
         }
         stage('Build Stage') {
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh """
                     ls -ltr
-                    mvn -v
+                    mvn clean package
                     echo "now java 8 is shown"
                    """
             }

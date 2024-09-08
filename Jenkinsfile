@@ -22,7 +22,7 @@ pipeline{
                  sh '''
                     scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209
-                    mv /tmp/gameoflife.war /opt/tomcat/webapps
+                    sudo mv /tmp/gameoflife.war /opt/tomcat/webapps
 
                     '''
 }           

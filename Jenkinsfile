@@ -25,6 +25,7 @@ pipeline {
             steps {
                 sshagent(['sshid']) {
                   sh 'scp -o StrictHostKeyChecking=no **/target/gameoflife.war ubuntu@172.31.37.68:/tmp'
+                  sh "scp -o StrictHostKeyChecking=no "sudo mv /tmp/gameoflife.war /opt/tomcat/webapps" "
             }
              }
              } 

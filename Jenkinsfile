@@ -7,7 +7,7 @@ pipeline {
                 PATH = "${env.PATH}:/usr/share/maven/bin:${JAVA_PATH}/bin"
             }
             steps {
-                sh "mvn -v // Check Maven version to ensure it's available
+                sh "mvn -v"  // Check Maven version to ensure it's available
             }
         }
     }

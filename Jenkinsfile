@@ -16,7 +16,7 @@ pipeline {
                     ls -ltr
                     mvn -v
                     echo "now java 8 is shown"
-                    mvn clean package
+                    mvn -v
                    """
              }
              } 

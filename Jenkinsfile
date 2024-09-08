@@ -33,5 +33,13 @@ pipeline {
                 }
             }
         }
+        stage("sonarqube scanner") {
+            steps {
+             withSonarQubeEnv(credentialsId: 'sonarqubecredential') {  
+                                sh 'mvn sonar:sonar'
+                             } 
+
+            }
+        }
     }
 }

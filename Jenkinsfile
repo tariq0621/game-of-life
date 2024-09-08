@@ -13,7 +13,7 @@ pipeline{
                PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${env.PATH}"
                }
         steps{
-               sh "mvn -v"
+               sh "mvn clean package"
             }
          
             

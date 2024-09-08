@@ -14,9 +14,19 @@ pipeline{
                }
         steps{
                sh "mvn clean package"
-            }
-         
-            
+            }   
+        }
+        stage("Git Checkout") {
+            steps {
+                 sshagent(['sshid']) {
+                 sh '''
+                    scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp'
+                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209
+                    mv /tmp/gameoflife.war /opt/tomcat/webapps
+
+                    '''
+}           
+                 }
         }
     }
 }

@@ -19,17 +19,18 @@ pipeline {
                    """
             }
         }
-        stage("deployment"){
-            steps{
-                sshagent (credentials: ['sshid']) {
-                 sh 'scp -o StrictHostKeyChecking=no  **/target/gameoflife.war ubuntu@172.31.10.209:/tmp'
-                  sh '''     
-                       ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209
-                       mv /tmp/gameoflife.war /opt/tomcat/webapps/
-
-                     '''
-              }
-            }
+        stage("Deployment") {
+            steps {
+                sshagent(credentials: ['sshid']) {
+                    // Use the exact path to the .war file
+                    sh '''
+                        scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
+                        
+                        // Run the remote commands to move the .war file
+                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209 'sudo mv /tmp/gameoflife.war /opt/tomcat/webapps/'
+                    '''
+                }
             }
         }
     }
+}

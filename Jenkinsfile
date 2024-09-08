@@ -14,9 +14,21 @@ pipeline {
             steps {
                 sh """
                     ls -ltr
-                    mvn clean package
+                    mvn -v
                     echo "now java 8 is shown"
                    """
+            }
+        }
+        stage("deployment"){
+            steps{
+                sshagent (credentials: ['deploy-dev']) {
+                 sh '''ssh -o StrictHostKeyChecking=no  gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
+                       ssh -o StrictHostKeyChecking=n ubuntu@172.31.10.209
+                       mv /tmp/gameoflife.war /opt/tomcat/webapps
+
+                     '''
+              }
+            }
             }
         }
     }

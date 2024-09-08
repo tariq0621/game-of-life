@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Git Checkout") {
             environment {
-                JAVA_PATH = "/usr/lib/jvm/java-8-openjdk-amd64/jre"
+                JAVA_PATH = "/usr/lib/jvm/java-8-openjdk-amd64"
                 PATH = "${env.PATH}:/usr/share/maven/bin:${JAVA_PATH}/bin"
             }
             steps {

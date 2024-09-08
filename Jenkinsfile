@@ -16,7 +16,7 @@ pipeline{
                sh "mvn clean package"
             }   
         }
-        stage("Git Checkout") {
+        stage("deploy environment") {
             steps {
                  sshagent(['sshid']) {
                  sh '''

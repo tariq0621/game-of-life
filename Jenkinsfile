@@ -24,7 +24,7 @@ pipeline {
                 sshagent (credentials: ['sshid']) {
                  sh 'scp -o StrictHostKeyChecking=no  gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp'
                   sh '''     
-                       ssh -o StrictHostKeyChecking=n ubuntu@172.31.10.209
+                       ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209
                        mv /tmp/gameoflife.war /opt/tomcat/webapps/
 
                      '''

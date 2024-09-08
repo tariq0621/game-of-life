@@ -20,5 +20,13 @@ pipeline {
                    """
              }
              } 
+             stage('deploy stage') {
+            
+            steps {
+                sshagent(['sshid']) {
+                  sh 'scp -o StrictHostKeyChecking=no **/target/gameoflife.war ubuntu@172.31.37.68:/tmp'
+            }
+             }
+             } 
     }
 }

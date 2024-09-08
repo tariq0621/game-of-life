@@ -12,7 +12,12 @@ pipeline {
                 PATH = "$JAVA_HOME/bin:/usr/share/maven/bin:$PATH"
             }
             steps {
-                sh "mvn -v"
+                sh """
+                    ls -ltr
+                    mvn -v
+                    echo "now java 8 is shown"
+                    mvn clean package
+                   """
              }
              } 
     }

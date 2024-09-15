@@ -22,7 +22,7 @@ pipeline {
         stage("sshagent") {
             steps {
                 sshagent(['sshid']) {
-                sh 'scp -o StrictHostKeyChecking=no -r /home/ubuntu/shaif ubuntu@172.31.32.102:/tmp'  
+                sh 'scp -o StrictHostKeyChecking=no -r /opt/shaif ubuntu@172.31.32.102:/tmp'  
             }
             }
         }

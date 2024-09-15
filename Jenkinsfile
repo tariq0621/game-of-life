@@ -14,9 +14,16 @@ pipeline {
             steps {
                 sh """
                     ls -ltr
-                    mvn clean package
+                    mvn -v
                     echo "now java 8 is shown"
                 """
+            }
+        }
+        stage("sshagent") {
+            steps {
+                sshagent(['sshid']) {
+                sh 'ssh -o StrictHostKeyChecking=no /home/ubuntu/shaif ubuntu@172.31.32.102:/tmp'  
+            }
             }
         }
   }

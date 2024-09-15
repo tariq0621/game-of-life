@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git credentialsId: 'github', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
+                git credentialsId: 'githubtoken', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
             }
         }
         stage('Build Stage') {
@@ -19,27 +19,5 @@ pipeline {
                 """
             }
         }
-        stage("Deployment") {
-            steps {
-                sshagent(credentials: ['sshid']) {
-                    // Securely copy the .war file to the remote server
-                    sh '''
-                        scp -o StrictHostKeyChecking=no gameoflife-web/target/gameoflife.war ubuntu@172.31.10.209:/tmp
-                    '''
-                    // Run the remote commands to move the .war file
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.209 'sudo mv /tmp/gameoflife.war /opt/tomcat/webapps/'
-                    '''
-                }
-            }
-        }
-        stage("sonarqube scanner") {
-            steps {
-             withSonarQubeEnv(credentialsId: 'sonarqubecredential', installationName: 'mona') {  
-                                sh 'mvn sonar:sonar'
-                             } 
-
-            }
-        }
-    }
-}
+  }
+  }

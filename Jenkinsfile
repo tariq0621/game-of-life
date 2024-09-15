@@ -22,7 +22,7 @@ pipeline {
         stage("sshagent") {
             steps {
                 sshagent(['sshid']) {
-                sh 'ssh -o StrictHostKeyChecking=no /home/ubuntu/* ubuntu@172.31.32.102:/tmp'  
+                sh 'ssh -o StrictHostKeyChecking=no -r/home/ubuntu/shaif ubuntu@172.31.32.102:/tmp'  
             }
             }
         }

@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    docker {
-      image 'docker:stable'
-      args '-v /var/run/docker.sock:/var/run/docker.sock'
-    }
-  }
     stages {
         stage("Git Checkout") {
             steps {
@@ -20,25 +15,25 @@ pipeline {
                 sh "mvn clean package"
             }
         }
-        stage("docker build and deploy stage") {
-            steps {
-                 sh "docker build -t tariq908/gol:1 ."
-                 sh "docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
-                 
+        stage("Docker Build and Deploy") {
+            agent {
+                docker {
+                    image 'docker:stable'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-            stage("docker image push to dockerhub") {
             steps {
-                 withCredentials([string(credentialsId: 'dockertoken', variable: 'dockerpwd')]) {
-                 sh "docker login -u tariq908 -p ${dockerpwd}"
-                 sh "docker push tariq908/gol:1"
+                sh "docker build -t tariq908/gol:1 ."
+                sh "docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
+            }
+        }
+        stage("Docker Push to DockerHub") {
+            steps {
+                withCredentials([string(credentialsId: 'dockertoken', variable: 'dockerpwd')]) {
+                    sh "docker login -u tariq908 -p ${dockerpwd}"
+                    sh "docker push tariq908/gol:1"
                 }
             }
         }
     }
-
-  
-  
-
-
-
+}

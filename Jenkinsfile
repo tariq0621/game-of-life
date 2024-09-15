@@ -16,22 +16,17 @@ pipeline {
             }
         }
         stage("Docker Build and Deploy") {
-            agent {
-                docker {
-                    image 'docker:stable'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
+         
             steps {
-                sh "docker build -t tariq908/gol:1 ."
-                sh "docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
+                sh "sudo docker build -t tariq908/gol:1 ."
+                sh "sudo docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
             }
         }
         stage("Docker Push to DockerHub") {
             steps {
                 withCredentials([string(credentialsId: 'dockertoken', variable: 'dockerpwd')]) {
-                    sh "docker login -u tariq908 -p ${dockerpwd}"
-                    sh "docker push tariq908/gol:1"
+                    sh "sudo docker login -u tariq908 -p ${dockerpwd}"
+                    sh "sudo docker push tariq908/gol:1"
                 }
             }
         }

@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Git Checkout") {
             steps {
-                git credentialsId: 'githubtoken', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
+              git changelog: false, credentialsId: 'gittoken', poll: false, url: 'https://github.com/tariq0621/game-of-life.git'
             }
         }
         stage('Build Stage') {
@@ -24,8 +24,8 @@ pipeline {
         }
         stage("Docker Push to DockerHub") {
             steps {
-                withCredentials([string(credentialsId: 'dockerhubtoken', variable: 'dockerhubcredentials')]) {
-                    sh "docker login -u tariq908 -p ${dockerhubcredentials}"
+                   withCredentials([usernameColonPassword(credentialsId: 'dockerhubtoken', variable: 'dockerpwd')]) {              
+                    sh "docker login -u tariq908 -p ${dockerpwd}"
                     sh "docker push tariq908/gol:1"
                 }
             }

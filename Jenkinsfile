@@ -18,8 +18,8 @@ pipeline {
         stage("Docker Build and Deploy") {
          
             steps {
-                sh "sudo docker build -t tariq908/gol:1 ."
-                sh "sudo docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
+                sh "docker build -t tariq908/gol:1 ."
+                sh "docker run -d --name gmlife -p 8000:8080 tariq908/gol:1"
             }
         }
         stage("Docker Push to DockerHub") {

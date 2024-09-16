@@ -9,7 +9,7 @@ pipeline {
         stage('Build Stage') {
             environment { 
                 JAVA_HOME = "/usr/lib/jvm/java-8-openjdk-amd64"
-                PATH = "${JAVA_HOME}/bin:/usr/share/maven/bin:${env.PATH}"
+                PATH = "${JAVA_HOME}/bin:/opt/maven3.9/bin:${env.PATH}"
             }
             steps {
                 sh "mvn clean package"

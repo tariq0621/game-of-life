@@ -24,8 +24,8 @@ pipeline {
         }
         stage("Docker Push to DockerHub") {
             steps {
-                   withCredentials([usernameColonPassword(credentialsId: 'dockerhubtoken', variable: 'dockerpwd')]) {              
-                    sh "echo $dockerpwd | docker login -u tariq908 --password-stdin"
+                   withCredentials([string(credentialsId: 'dockersecret', variable: 'dockersecret')]) {              
+                    sh "echo $dockersecret | docker login -u tariq908 --password-stdin"
                     sh "docker push tariq908/gol:1"
                 }
             }

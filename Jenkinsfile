@@ -24,11 +24,12 @@ pipeline {
         }
         stage("Docker Push to DockerHub") {
             steps {
-                withCredentials([string(credentialsId: 'dockertoken', variable: 'dockerpwd')]) {
-                    sh "sudo docker login -u tariq908 -p ${dockerpwd}"
+                withCredentials([string(credentialsId: 'dockerhubtoken', variable: 'dockerhubcredentials')]) {
+                    sh "sudo docker login -u tariq908 -p ${dockerhubcredentials}"
                     sh "sudo docker push tariq908/gol:1"
                 }
             }
         }
     }
 }
+

@@ -19,7 +19,7 @@ pipeline {
          
             steps {
                 sh "docker build -t tariq908/gol:1 ."
-                sh "docker run -d --name gmlife1 -p 8000:8080 tariq908/gol:1"
+                sh "docker run -d --name gol1 -p 9000:8080 tariq908/gol:1"
             }
         }
         stage("Docker Push to DockerHub") {

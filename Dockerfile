@@ -1,5 +1,5 @@
 FROM maven:3.6.1-jdk-8 as maven_builder
-COPY . /app
+RUN git clone https://github.com/tariq0621/game-of-life.git
 WORKDIR /app/game-of-life
 RUN mvn clean package
 
